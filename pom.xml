@@ -12,7 +12,7 @@
     <version>1.x.x-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <!-- ===== General information ===== -->
+    <!-- ===== General informations ===== -->
     <name>MyERP</name>
     <description>
         ERP sur-mesure pour Dummy...
@@ -25,9 +25,8 @@
         <url>http://www.dummy.com</url>
     </organization>
 
-
     <!-- =============================================================== -->
-    <!-- Distrubution management -->
+    <!-- Distribution management -->
     <!-- =============================================================== -->
     <distributionManagement>
         <site>
@@ -36,7 +35,6 @@
             <url>file://${project.build.directory}/site-doc/</url>
         </site>
     </distributionManagement>
-
 
     <!-- =============================================================== -->
     <!-- Properties -->
@@ -55,7 +53,6 @@
         <spring.version>4.3.7.RELEASE</spring.version>
     </properties>
 
-
     <!-- =============================================================== -->
     <!-- Modules -->
     <!-- =============================================================== -->
@@ -65,7 +62,6 @@
         <module>myerp-consumer</module>
         <module>myerp-business</module>
     </modules>
-
 
     <!-- =============================================================== -->
     <!-- Profiles -->
@@ -95,7 +91,6 @@
         </profile>
     </profiles>
 
-
     <!-- =============================================================== -->
     <!-- Repositories -->
     <!-- =============================================================== -->
@@ -111,9 +106,8 @@
         </repository>
     </repositories>
 
-
     <!-- =============================================================== -->
-    <!-- Dependency managment -->
+    <!-- Dependency management -->
     <!-- =============================================================== -->
     <dependencyManagement>
         <dependencies>
@@ -138,7 +132,6 @@
                 <artifactId>myerp-business</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
 
             <!-- ========== Libraries ========== -->
             <!-- ===== Log4j ===== -->
@@ -242,23 +235,33 @@
                 <scope>runtime</scope>
             </dependency>
 
-            <!-- ===== Test unitaires ===== -->
+            <!-- ===== Tests unitaires ===== -->
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.6.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+                <version>5.6.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.13.2</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <!-- =============================================================== -->
     <!-- Dependencies -->
     <!-- =============================================================== -->
     <dependencies>
     </dependencies>
-
 
     <!-- =============================================================== -->
     <!-- Build -->
@@ -280,7 +283,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- ===== "Filtrage/Parsing" des resources ===== -->
+                <!-- ===== "Filtrage/Parsing" des ressources ===== -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -290,7 +293,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- ===== Gestion des dépendences ===== -->
+                <!-- ===== Gestion des dépendances ===== -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -378,7 +381,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
 
     <!-- =============================================================== -->
     <!-- Reporting -->
@@ -507,7 +509,7 @@
                         <!-- don't run aggregate in child modules -->
                         <inherited>false</inherited>
                         <configuration>
-                            <!-- Skip checktyle execution will only scan the outputFile. -->
+                            <!-- Skip Checkstyle execution will only scan the outputFile. -->
                             <skipExec>true</skipExec>
                         </configuration>
                         <reports>
