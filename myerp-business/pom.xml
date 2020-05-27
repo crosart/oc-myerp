@@ -20,7 +20,6 @@
     <!-- ===== General information ===== -->
     <name>${project.artifactId}</name>
 
-
     <!-- =============================================================== -->
     <!-- Distrubution management -->
     <!-- =============================================================== -->
@@ -32,13 +31,11 @@
         </site>
     </distributionManagement>
 
-
     <!-- =============================================================== -->
     <!-- Properties -->
     <!-- =============================================================== -->
     <properties>
     </properties>
-
 
     <!-- =============================================================== -->
     <!-- Dependencies -->
@@ -67,7 +64,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
-
 
         <!-- ========== Test Dependencies ========== -->
         <dependency>

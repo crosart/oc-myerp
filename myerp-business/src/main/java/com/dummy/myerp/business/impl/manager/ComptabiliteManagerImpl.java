@@ -18,14 +18,12 @@ import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
-
 /**
  * Comptabilite manager implementation.
  */
 public class ComptabiliteManagerImpl extends AbstractBusinessManager implements ComptabiliteManager {
 
     // ==================== Attributs ====================
-
 
     // ==================== Constructeurs ====================
     /**
@@ -34,13 +32,11 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     public ComptabiliteManagerImpl() {
     }
 
-
     // ==================== Getters/Setters ====================
     @Override
     public List<CompteComptable> getListCompteComptable() {
         return getDaoProxy().getComptabiliteDao().getListCompteComptable();
     }
-
 
     @Override
     public List<JournalComptable> getListJournalComptable() {
@@ -86,13 +82,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         this.checkEcritureComptableContext(pEcritureComptable);
     }
 
-
     /**
-     * Vérifie que l'Ecriture comptable respecte les règles de gestion unitaires,
-     * c'est à dire indépendemment du contexte (unicité de la référence, exercie comptable non cloturé...)
+     * Vérifie que l'écriture comptable respecte les règles de gestion unitaires,
+     * c'est à dire indépendamment du contexte (unicité de la référence, exercice comptable non clôturé...)
      *
      * @param pEcritureComptable -
-     * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
+     * @throws FunctionalException Si l'écriture comptable ne respecte pas les règles de gestion
      */
     // TODO tests à compléter
     protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
@@ -135,7 +130,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
     }
-
 
     /**
      * Vérifie que l'Ecriture comptable respecte les règles de gestion liées au contexte
