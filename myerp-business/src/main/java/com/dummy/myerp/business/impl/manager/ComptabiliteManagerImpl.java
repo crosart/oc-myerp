@@ -1,20 +1,20 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import com.dummy.myerp.model.bean.comptabilite.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.TransactionStatus;
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -56,20 +56,26 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     // TODO à tester
     @Override
-    public synchronized void addReference(EcritureComptable pEcritureComptable) {
-        // TODO à implémenter
-        // Bien se réferer à la JavaDoc de cette méthode !
-        /* Le principe :
-                1.  Remonter depuis la persistance la dernière valeur de la séquence du journal pour l'année de l'écriture
-                    (table sequence_ecriture_comptable)
-                2.  * S'il n'y a aucun enregistrement pour le journal pour l'année concernée :
-                        1. Utiliser le numéro 1.
-                    * Sinon :
-                        1. Utiliser la dernière valeur + 1
-                3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
-                4.  Enregistrer (insert/update) la valeur de la séquence en persitance
-                    (table sequence_ecriture_comptable)
-         */
+    public synchronized String addReference(EcritureComptable pEcritureComptable) throws NotFoundException {
+        Integer refDerniereValeur;
+
+        // Date.getYear() est actuellement Deprecated
+        // Conversion de la Date de l'écriture comptable en LocalDate pour en extraire l'année
+        LocalDate ecDate = pEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // Si la séquence existe déjà, on récupère la dernière valeur de la séquence
+        // Sinon, on crée la séquence et on l'initialise à 1
+        try {
+            SequenceEcritureComptable vSEC = getDaoProxy().getComptabiliteDao().getSequenceEcritureComptableByJournalCodeAndAnnee(pEcritureComptable.getJournal().getCode(), ecDate.getYear());
+            refDerniereValeur = vSEC.getDerniereValeur() + 1;
+            getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(vSEC, pEcritureComptable.getJournal().getCode());
+        } catch (NotFoundException vEx) {
+            refDerniereValeur = 1;
+            getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(pEcritureComptable.getJournal().getCode(), ecDate.getYear());
+        }
+
+        // Renvoie la référence construite
+        return pEcritureComptable.getJournal().getCode() + "-" + ecDate.getYear() + "/" + String.format("%05d", refDerniereValeur);
     }
 
     /**

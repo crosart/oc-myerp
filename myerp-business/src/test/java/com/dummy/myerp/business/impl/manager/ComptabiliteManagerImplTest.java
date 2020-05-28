@@ -9,7 +9,9 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Tag("ComptabiliteManagerImplTests")
@@ -113,6 +115,29 @@ public class ComptabiliteManagerImplTest {
                 manager.checkEcritureComptableUnit(vEcritureComptable);
             });
         }
+    }
+
+    @Test
+    @Tag("addReference")
+    @DisplayName("Doit mettre à jour la référence d'une écriture comptable")
+    public void checkAddReference_shouldUpdateReference_whenGivenEcritureComptable() throws Exception {
+        // GIVEN
+        EcritureComptable vEcritureComptable = new EcritureComptable();
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                "Libelle", new BigDecimal(123),
+                null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                "Libelle", new BigDecimal(123),
+                null));
+
+        // WHEN
+        String vReference = manager.addReference(vEcritureComptable);
+
+        // THEN
+        assertThat(vReference).isEqualTo("AC-2020/00004");
     }
 
 }
