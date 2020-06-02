@@ -57,7 +57,7 @@ public abstract class AbstractBusinessManager {
      *
      * @return {@link DaoProxy}
      */
-    protected DaoProxy getDaoProxy() {
+    public DaoProxy getDaoProxy() {
         return daoProxy;
     }
 

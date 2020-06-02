@@ -1,33 +1,46 @@
 package com.dummy.myerp.business.impl.manager;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.business.impl.AbstractBusinessManager;
+import com.dummy.myerp.business.impl.TransactionManager;
+import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
+import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
+import com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl;
+import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.FunctionalException;
+import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
 
 @Tag("ComptabiliteManagerImplTests")
+@ExtendWith(MockitoExtension.class)
 public class ComptabiliteManagerImplTest {
-
-    private ComptabiliteManagerImpl manager;
-
-    @BeforeEach
-    public void initComptabiliteManagerImpl() {
-        manager = new ComptabiliteManagerImpl();
-    }
 
     @Nested
     @Tag("checkEcritureComptableUnit")
     @DisplayName("Respect des règles de gestion unitaires par une écriture comptable")
     class checkEcritureComptableUnitTests {
+
+        private ComptabiliteManagerImpl manager;
+
+        @BeforeEach
+        public void initComptabiliteManagerImpl() {
+            manager = new ComptabiliteManagerImpl();
+        }
+
         @Test
         @DisplayName("Vérifier une écriture comptable correcte")
         public void givenEcritureComptable_thenCheckEcritureComptableUnitPasses() throws Exception {
@@ -117,27 +130,114 @@ public class ComptabiliteManagerImplTest {
         }
     }
 
-    @Test
+    @Nested
     @Tag("addReference")
-    @DisplayName("Doit mettre à jour la référence d'une écriture comptable")
-    public void checkAddReference_shouldUpdateReference_whenGivenEcritureComptable() throws Exception {
-        // GIVEN
-        EcritureComptable vEcritureComptable = new EcritureComptable();
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                "Libelle", new BigDecimal(123),
-                null));
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                "Libelle", new BigDecimal(123),
-                null));
+    @DisplayName("Création et ajout d'une référence pour une écriture comptable")
+    class addReferenceTests {
 
-        // WHEN
-        String vReference = manager.addReference(vEcritureComptable);
+        private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
+        private DaoProxy daoProxyMock = mock(DaoProxy.class, Mockito.RETURNS_DEEP_STUBS);
 
-        // THEN
-        assertThat(vReference).isEqualTo("AC-2020/00004");
+        @BeforeEach
+        public void initAbstractBusinessManager() {
+            AbstractBusinessManager.configure(null, daoProxyMock, TransactionManager.getInstance());
+        }
+
+        @Test
+        @DisplayName("Doit retourner une référence valide")
+        public void givenEcritureComptable_thenBuiltReferenceShouldBeValid() throws FunctionalException, NotFoundException {
+
+            // GIVEN
+            EcritureComptable vEcritureComptable = new EcritureComptable();
+            vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+            vEcritureComptable.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+            vEcritureComptable.setLibelle("Libelle");
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    "Libelle", new BigDecimal(123),
+                    null));
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    "Libelle", new BigDecimal(123),
+                    null));
+
+            SequenceEcritureComptable vSequenceEcritureComptable = new SequenceEcritureComptable();
+            vSequenceEcritureComptable.setCodeJournal("AC");
+            vSequenceEcritureComptable.setAnnee(2020);
+            vSequenceEcritureComptable.setDerniereValeur(3);
+
+            when(daoProxyMock.getComptabiliteDao().getSequenceJournalEcritureComptable(vEcritureComptable))
+                    .thenReturn(vSequenceEcritureComptable);
+
+            // WHEN
+            manager.addReference(vEcritureComptable);
+
+            // THEN
+            assertEquals("AC-2020/00003", vEcritureComptable.getReference());
+        }
+
+        @Test
+        @DisplayName("Doit rejeter la référence si la séquence est au MAX")
+        public void givenEcritureComptable_whenSequenceMax_ThenThrowFunctionalException() throws NotFoundException {
+
+            // GIVEN
+            EcritureComptable vEcritureComptable = new EcritureComptable();
+            vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+            vEcritureComptable.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+            vEcritureComptable.setLibelle("Libelle");
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    "Libelle", new BigDecimal(123),
+                    null));
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    "Libelle", new BigDecimal(123),
+                    null));
+
+            SequenceEcritureComptable vSequenceEcritureComptable = new SequenceEcritureComptable();
+            vSequenceEcritureComptable.setCodeJournal("AC");
+            vSequenceEcritureComptable.setAnnee(2020);
+            vSequenceEcritureComptable.setDerniereValeur(99999);
+
+            when(daoProxyMock.getComptabiliteDao().getSequenceJournalEcritureComptable(vEcritureComptable))
+                    .thenReturn(vSequenceEcritureComptable);
+
+            // WHEN
+            // ...
+
+            // THEN
+            assertThrows(FunctionalException.class, () -> {
+                manager.addReference(vEcritureComptable);
+            });
+
+        }
+
+        @Test
+        @DisplayName("Doit incrémenter la séquence après création de la référence")
+        public void givenEcritureComptable_whenReferenceBuilt_ThenIncrementDerniereValeur() throws FunctionalException, NotFoundException {
+
+            // GIVEN
+            EcritureComptable vEcritureComptable = new EcritureComptable();
+            vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+            vEcritureComptable.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+            vEcritureComptable.setLibelle("Libelle");
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    "Libelle", new BigDecimal(123),
+                    null));
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    "Libelle", new BigDecimal(123),
+                    null));
+
+            SequenceEcritureComptable vSequenceEcritureComptable = new SequenceEcritureComptable();
+            vSequenceEcritureComptable.setCodeJournal("AC");
+            vSequenceEcritureComptable.setAnnee(2020);
+            vSequenceEcritureComptable.setDerniereValeur(3);
+
+            when(daoProxyMock.getComptabiliteDao().getSequenceJournalEcritureComptable(vEcritureComptable))
+                    .thenReturn(vSequenceEcritureComptable);
+
+            // WHEN
+            manager.addReference(vEcritureComptable);
+
+            // THEN
+            assertEquals(4, vSequenceEcritureComptable.getDerniereValeur());
+        }
     }
 
 }

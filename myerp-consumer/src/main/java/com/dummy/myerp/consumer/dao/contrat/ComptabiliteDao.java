@@ -32,12 +32,11 @@ public interface ComptabiliteDao {
     /**
      * Renvoie la Séquence Écriture Comptable du journal codé {@code pJournalCode} et pour l'année {@code pAnnee}.
      *
-     * @param pJournalCode le code du journal comptable
-     * @param pAnnee l'année de l'exercice comptable
+     * @param pEcritureComptable l'écriture comptable dont on doit retrouver la séquence associée
      * @return {@link SequenceEcritureComptable}
      * @throws NotFoundException : Si la séquence n'a pas été trouvée
      */
-    SequenceEcritureComptable getSequenceEcritureComptableByJournalCodeAndAnnee(String pJournalCode, Integer pAnnee) throws NotFoundException;
+    SequenceEcritureComptable getSequenceJournalEcritureComptable(EcritureComptable pEcritureComptable) throws NotFoundException;
 
     /**
      * Insère une nouvelle séquence d'écriture comptable pour le journal codé {@code pJournalCode} et pour l'année {@code pAnnee}.
@@ -47,7 +46,7 @@ public interface ComptabiliteDao {
      */
     void insertSequenceEcritureComptable(String pJournalCode, Integer pAnnee);
 
-    void updateSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable, String pJournalCode);
+    void updateSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable);
 
     // ==================== EcritureComptable ====================
 

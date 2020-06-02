@@ -3,7 +3,6 @@ package com.dummy.myerp.business.impl.manager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -54,9 +53,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     /**
      * {@inheritDoc}
      */
-    // TODO à tester
     @Override
-    public synchronized String addReference(EcritureComptable pEcritureComptable) throws NotFoundException {
+    public synchronized void addReference(EcritureComptable pEcritureComptable) throws NotFoundException, FunctionalException {
         Integer refDerniereValeur;
 
         // Date.getYear() est actuellement Deprecated
@@ -64,18 +62,27 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         LocalDate ecDate = pEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         // Si la séquence existe déjà, on récupère la dernière valeur de la séquence
+        // - Si la dernière valeur de la séquence a atteint 99999 (MAX), on renvoie une exception
+        // - Sinon on récupère la valeur et on update la séquence à la valeur suivante
         // Sinon, on crée la séquence et on l'initialise à 1
         try {
-            SequenceEcritureComptable vSEC = getDaoProxy().getComptabiliteDao().getSequenceEcritureComptableByJournalCodeAndAnnee(pEcritureComptable.getJournal().getCode(), ecDate.getYear());
-            refDerniereValeur = vSEC.getDerniereValeur() + 1;
-            getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(vSEC, pEcritureComptable.getJournal().getCode());
+            SequenceEcritureComptable vSEC = getDaoProxy().getComptabiliteDao().getSequenceJournalEcritureComptable(pEcritureComptable);
+            if (vSEC.getDerniereValeur() == 99999) {
+                throw new FunctionalException("Ce journal ne peut plus contenir plus d'écritures pour cette année");
+            } else {
+                refDerniereValeur = vSEC.getDerniereValeur();
+                vSEC.setDerniereValeur(refDerniereValeur + 1);
+                getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(vSEC);
+            }
         } catch (NotFoundException vEx) {
             refDerniereValeur = 1;
             getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(pEcritureComptable.getJournal().getCode(), ecDate.getYear());
         }
 
-        // Renvoie la référence construite
-        return pEcritureComptable.getJournal().getCode() + "-" + ecDate.getYear() + "/" + String.format("%05d", refDerniereValeur);
+        // On builde la référence suivant RG5
+        pEcritureComptable.setReference(pEcritureComptable.getJournal().getCode() +
+                "-" + ecDate.getYear() +
+                "/" + String.format("%05d", refDerniereValeur));
     }
 
     /**
