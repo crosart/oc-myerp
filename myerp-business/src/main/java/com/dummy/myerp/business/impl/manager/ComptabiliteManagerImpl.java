@@ -88,7 +88,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     /**
      * {@inheritDoc}
      */
-    // TODO à tester
     @Override
     public void checkEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
         this.checkEcritureComptableUnit(pEcritureComptable);
@@ -102,7 +101,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param pEcritureComptable -
      * @throws FunctionalException Si l'écriture comptable ne respecte pas les règles de gestion
      */
-    // TODO tests à compléter
     protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
@@ -131,7 +129,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 vNbrDebit++;
             }
         }
-        // On test le nombre de lignes car si l'écriture à une seule ligne
+        // On teste le nombre de lignes car si l'écriture à une seule ligne
         //      avec un montant au débit et un montant au crédit ce n'est pas valable
         if (pEcritureComptable.getListLigneEcriture().size() < 2
             || vNbrCredit < 1
@@ -139,9 +137,15 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             throw new FunctionalException(
                 "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
         }
-
-        // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        String[] parsedReference = pEcritureComptable.getReference().split("-|/");
+        LocalDate ecDate = pEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (!parsedReference[0].equals(pEcritureComptable.getJournal().getCode())) {
+            throw new FunctionalException("Le code du journal compris dans la référence ne correspond pas à celui de l'écriture comptable. (RG5)");
+        }
+        if (Integer.parseInt(parsedReference[1]) != ecDate.getYear()) {
+            throw new FunctionalException("L'année comprise dans la référence ne correspond pas à celle de l'écriture comptable. (RG5)");
+        }
     }
 
     /**
@@ -171,6 +175,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             }
         }
     }
+
 
     /**
      * {@inheritDoc}
