@@ -1,5 +1,6 @@
 stages:
   - triggers
+  
 trigger_business:
   stage: triggers
   trigger:
@@ -16,7 +17,7 @@ trigger_consumer:
     - changes:
       - myerp-consumer/*
 
-trigger_mdoel:
+trigger_model:
   stage: triggers
   trigger:
     include: myerp-model/.gitlab-ci.yml
