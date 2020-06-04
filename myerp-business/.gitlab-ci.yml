@@ -2,8 +2,6 @@ stages:
   - build
   - test
 
-image: alpine
-
 build_business:
   stage: build
   script:

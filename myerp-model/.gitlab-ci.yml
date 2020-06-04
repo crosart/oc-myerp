@@ -2,8 +2,6 @@ stages:
   - build
   - test
 
-image: alpine
-
 build_model:
   stage: build
   script:
