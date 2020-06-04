@@ -238,13 +238,7 @@
             <!-- ===== Tests unitaires ===== -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>5.6.2</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.vintage</groupId>
-                <artifactId>junit-vintage-engine</artifactId>
+                <artifactId>junit-jupiter</artifactId>
                 <version>5.6.2</version>
                 <scope>test</scope>
             </dependency>
@@ -338,7 +332,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.20</version>
+                    <version>2.22.2</version>
                 </plugin>
 
                 <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
@@ -384,6 +378,8 @@
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>1.10</version>
                 </plugin>
+
+
             </plugins>
         </pluginManagement>
     </build>
@@ -524,6 +520,8 @@
                     </reportSet>
                 </reportSets>
             </plugin>
+
+
         </plugins>
     </reporting>
 </project>
