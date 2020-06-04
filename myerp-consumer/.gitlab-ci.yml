@@ -1,0 +1,16 @@
+stages:
+  - build
+  - test
+
+image: alpine
+
+build_consumer:
+  stage: build
+  script:
+    - echo "Building Consumer module."
+
+test_consumer:
+  stage: test
+  needs: build_consumer
+  script:
+    - echo "Testing Consumer module."

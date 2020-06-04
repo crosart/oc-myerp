@@ -1,0 +1,16 @@
+stages:
+  - build
+  - test
+
+image: alpine
+
+build_business:
+  stage: build
+  script:
+    - echo "Building Business module."
+
+test_business:
+  stage: test
+  needs: build_business
+  script:
+    - echo "Testing Business module."

@@ -1,0 +1,16 @@
+stages:
+  - build
+  - test
+
+image: alpine
+
+build_model:
+  stage: build
+  script:
+    - echo "Building Model module."
+
+test_model:
+  stage: test
+  needs: build_model
+  script:
+    - echo "Testing Model module."

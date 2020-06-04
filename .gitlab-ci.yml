@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+
+trigger:
+  stage: triggers
+  trigger:
+    include: myerp-business
+
+image: alpine
+
+build:
+  stage: build
+  script:
+    - echo "Building"
+
+test:
+  stage: test
+  needs: build
+  script:
+    - echo "Testing"
