@@ -2,20 +2,26 @@ stages:
   - build
   - test
 
-trigger:
+trigger_business:
   stage: triggers
   trigger:
-    include: myerp-business
+    include: myerp-business/.gitlab-ci.yml
+  rules:
+    - changes:
+      - myerp-business/*
 
-image: alpine
+trigger_consumer:
+  stage: triggers
+  trigger:
+    include: myerp-consumer/.gitlab-ci.yml
+  rules:
+    - changes:
+      - myerp-consumer/*
 
-build:
-  stage: build
-  script:
-    - echo "Building"
-
-test:
-  stage: test
-  needs: build
-  script:
-    - echo "Testing"
+trigger_mdoel:
+  stage: triggers
+  trigger:
+    include: myerp-model/.gitlab-ci.yml
+  rules:
+    - changes:
+      - myerp-model/*
