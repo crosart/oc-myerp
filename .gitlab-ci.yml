@@ -1,7 +1,5 @@
 stages:
-  - build
-  - test
-
+  - triggers
 trigger_business:
   stage: triggers
   trigger:
