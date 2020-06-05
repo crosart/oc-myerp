@@ -1,14 +1,7 @@
 stages:
-  - build
   - test
-
-build_business:
-  stage: build
-  script:
-    - echo "Building Business module."
 
 test_business:
   stage: test
-  needs: build_business
   script:
-    - echo "Testing Business module."
+    - 'mvn test'
