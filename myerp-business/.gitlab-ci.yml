@@ -1,9 +1,0 @@
-image: maven:latest
-
-stages:
-  - test
-
-test_business:
-  stage: test
-  script:
-    - 'mvn test'
