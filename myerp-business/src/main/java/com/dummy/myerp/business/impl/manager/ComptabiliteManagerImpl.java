@@ -68,7 +68,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         try {
             SequenceEcritureComptable vSEC = getDaoProxy().getComptabiliteDao().getSequenceJournalEcritureComptable(pEcritureComptable);
             if (vSEC.getDerniereValeur() == 99999) {
-                throw new FunctionalException("Ce journal ne peut plus contenir plus d'écritures pour cette année");
+                throw new FunctionalException("Ce journal ne peut pas contenir plus d'écritures pour cette année");
             } else {
                 refDerniereValeur = vSEC.getDerniereValeur();
                 vSEC.setDerniereValeur(refDerniereValeur + 1);
@@ -80,9 +80,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         }
 
         // On builde la référence suivant RG5
-        pEcritureComptable.setReference(pEcritureComptable.getJournal().getCode() +
-                "-" + ecDate.getYear() +
-                "/" + String.format("%05d", refDerniereValeur));
+        pEcritureComptable.setReference(String.format("%s-%d/%05d", pEcritureComptable.getJournal().getCode(), ecDate.getYear(), refDerniereValeur));
     }
 
     /**
@@ -175,7 +173,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             }
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
