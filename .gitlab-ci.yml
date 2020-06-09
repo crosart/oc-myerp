@@ -1,9 +1,9 @@
 variables:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-  POSTGRES_DB: myerp
+  POSTGRES_DB: gitlab
   POSTGRES_USER: gitlab
-  POSTGRES_PASSWORD: test
+  POSTGRES_PASSWORD: ""
 
 stages:
   - connect
@@ -19,10 +19,9 @@ services:
   - postgres:9.4
 
 connect:
-  image: postgres
+  image: postgres:9.4
   script:
     - export PGPASSWORD=$POSTGRES_PASSWORD
-    - psql -c 'create database $POSTGRES_DB;' -h postgres -U $POSTGRES_USER
     - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 01_script_init_schema.sql
     - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 02_script_init_tables.sql
     - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 03_script_insert_data.sql
