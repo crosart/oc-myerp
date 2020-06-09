@@ -21,10 +21,10 @@ connect:
   image: postgres
   script:
     - export PGPASSWORD=$POSTGRES_PASSWORD
-    - psql -c 'create database $POSTGRES_DB;' -U $POSTGRES_USER
-    - psql db_myerp < 01_script_init_schema.sql
-    - psql db_myerp < 02_script_init_tables.sql
-    - psql db_myerp < 03_script_insert_data.sql
+    - psql -c 'create database $POSTGRES_DB;' -h postgres -U $POSTGRES_USER
+    - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 01_script_init_schema.sql
+    - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 02_script_init_tables.sql
+    - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 03_script_insert_data.sql
 
 cache:
   paths:
