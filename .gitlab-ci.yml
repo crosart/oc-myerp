@@ -16,13 +16,12 @@ stages:
     - 'mvn $MAVEN_CLI_OPTS verify'
 
 services:
-  - postgres:latest
+  - postgres:9.4
 
 connect:
   image: postgres
   script:
     - export PGPASSWORD=$POSTGRES_PASSWORD
-    - sudo apt-get install -y postgresql postgresql-client libpq-dev
     - psql -c 'create database $POSTGRES_DB;' -h postgres -U $POSTGRES_USER
     - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 01_script_init_schema.sql
     - psql -d $POSTGRES_DB -h postgres -U $POSTGRES_USER < 02_script_init_tables.sql
