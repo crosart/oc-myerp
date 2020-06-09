@@ -12,7 +12,7 @@ variables:
 
   # For merge requests do not `deploy` but only run `verify`.
   # See https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
-.verify: &verify:
+.verify: &verify
 # This template uses jdk8 for verifying and deploying images
   image: maven:3.3.9-jdk-8
   services:
