@@ -21,7 +21,7 @@ connect:
     - psql -h "postgres" -U "$POSTGRES_USER" -d "$POSTGRES_DB" < 02_script_init_tables.sql
     - psql -h "postgres" -U "$POSTGRES_USER" -d "$POSTGRES_DB" < 03_script_insert_data.sql
 
-.verify: &verify
+verify:
   image: maven:3.3.9-jdk-8
   stage: test
   script:
@@ -31,6 +31,3 @@ connect:
 cache:
   paths:
     - .m2/repository
-
-verify:jdk8:
-  <<: *verify
