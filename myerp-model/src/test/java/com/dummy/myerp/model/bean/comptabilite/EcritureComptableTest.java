@@ -33,7 +33,7 @@ public class EcritureComptableTest {
         vEC.getListLigneEcriture().add(this.createLigne(2, null, "301"));
         vEC.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
         assertTrue(vEC.isEquilibree());
-
+        // TODO séparer tests
         vEC.getListLigneEcriture().clear();
         vEC.setLibelle("Non équilibrée");
         vEC.getListLigneEcriture().add(this.createLigne(1, "10", null));

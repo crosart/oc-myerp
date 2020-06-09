@@ -6,6 +6,8 @@
 
     <!-- ====================   Business-Proxy   ==================== -->
 
+    <import resource="classpath:com/dummy/myerp/consumer/applicationContext.xml"></import>
+
     <!-- BusinessProxy -->
     <bean id="BusinessProxy"
           class="com.dummy.myerp.business.impl.BusinessProxyImpl"

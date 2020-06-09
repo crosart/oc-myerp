@@ -3,11 +3,18 @@ services:
 
 variables:
   # Configure postgres service (https://hub.docker.com/_/postgres/)
-  POSTGRES_DB: custom_db
-  POSTGRES_USER: custom_user
-  POSTGRES_PASSWORD: custom_pass
+  POSTGRES_DB: myerp
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+
+stages:
+  - prepare
+  - test
 
 connect:
+  stage: prepare
   image: postgres
   script:
     # official way to provide password to psql: http://www.postgresql.org/docs/9.3/static/libpq-envars.html
@@ -16,3 +23,16 @@ connect:
     - psql -h "postgres" -U "$POSTGRES_USER" -d "$POSTGRES_DB" < 01_script_init_schema.sql
     - psql -h "postgres" -U "$POSTGRES_USER" -d "$POSTGRES_DB" < 02_script_init_tables.sql
     - psql -h "postgres" -U "$POSTGRES_USER" -d "$POSTGRES_DB" < 03_script_insert_data.sql
+
+.verify: &verify
+  image: maven:3.3.9-jdk-8
+  stage: test
+  script:
+    - 'mvn $MAVEN_CLI_OPTS verify -P test-business'
+
+cache:
+  paths:
+    - .m2/repository
+
+verify:jdk8:
+  <<: *verify
