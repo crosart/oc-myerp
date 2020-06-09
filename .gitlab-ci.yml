@@ -26,6 +26,7 @@ verify:
   stage: test
   script:
     - 'mvn verify -P test-business'
+  when: delayed
   start_in: 2 minutes
 
 cache:
