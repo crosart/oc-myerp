@@ -80,15 +80,14 @@ public class EcritureComptable {
      *
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au débit
      */
-    // TODO à tester
     public BigDecimal getTotalDebit() {
-        BigDecimal vRetour = BigDecimal.ZERO;
-        for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
-            if (vLigneEcritureComptable.getDebit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
+        BigDecimal totalDebit = BigDecimal.ZERO;
+        for (LigneEcritureComptable vLEC : listLigneEcriture) {
+            if (vLEC.getDebit() != null) {
+                totalDebit = totalDebit.add(vLEC.getDebit());
             }
         }
-        return vRetour;
+        return totalDebit.setScale(2, BigDecimal.ROUND_UP);
     }
 
     /**
@@ -97,13 +96,13 @@ public class EcritureComptable {
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au crédit
      */
     public BigDecimal getTotalCredit() {
-        BigDecimal vRetour = BigDecimal.ZERO;
-        for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
-            if (vLigneEcritureComptable.getCredit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
+        BigDecimal totalCredit = BigDecimal.ZERO;
+        for (LigneEcritureComptable vLEC : listLigneEcriture) {
+            if (vLEC.getCredit() != null) {
+                totalCredit = totalCredit.add(vLEC.getCredit());
             }
         }
-        return vRetour;
+        return totalCredit.setScale(2, BigDecimal.ROUND_UP);
     }
 
     /**
@@ -111,8 +110,7 @@ public class EcritureComptable {
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
-        return vRetour;
+        return this.getTotalDebit().equals(getTotalCredit());
     }
 
     // ==================== Méthodes ====================

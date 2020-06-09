@@ -3,11 +3,10 @@ package com.dummy.myerp.model.bean.comptabilite;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class EcritureComptableTest {
@@ -24,25 +23,38 @@ public class EcritureComptableTest {
     }
 
     @Test
-    @Disabled
-    public void isEquilibree() {
-        EcritureComptable vEcriture;
-        vEcriture = new EcritureComptable();
+    @DisplayName("Vérification de l'équilibre d'une écriture comptable")
+    public void givenEcritureComptable_thenIsEquilibree() {
+        EcritureComptable vEC = new EcritureComptable();
 
-        vEcriture.setLibelle("Equilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "200.50", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "301"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
-        assertTrue(vEcriture.isEquilibree());
+        vEC.setLibelle("Equilibrée");
+        vEC.getListLigneEcriture().add(this.createLigne(1, "200.50", null));
+        vEC.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
+        vEC.getListLigneEcriture().add(this.createLigne(2, null, "301"));
+        vEC.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
+        assertTrue(vEC.isEquilibree());
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Non équilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
-        assertFalse(vEcriture.isEquilibree());
+        vEC.getListLigneEcriture().clear();
+        vEC.setLibelle("Non équilibrée");
+        vEC.getListLigneEcriture().add(this.createLigne(1, "10", null));
+        vEC.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
+        vEC.getListLigneEcriture().add(this.createLigne(2, null, "30"));
+        vEC.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
+        assertFalse(vEC.isEquilibree());
+    }
+
+    @Test
+    @DisplayName("Vérification du total de débits et crédits d'une écriture comptable")
+    public void givenEcritureComptable_thenTotalsShouldBeEqualToSums() {
+        EcritureComptable vEC = new EcritureComptable();
+
+        vEC.setLibelle("Equilibrée");
+        vEC.getListLigneEcriture().add(this.createLigne(1, "200.50", null));
+        vEC.getListLigneEcriture().add(this.createLigne(1, "100.50", "30"));
+        vEC.getListLigneEcriture().add(this.createLigne(2, null, "300"));
+        vEC.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
+        assertEquals(new BigDecimal("341.00"), vEC.getTotalDebit());
+        assertEquals(new BigDecimal("337.00"), vEC.getTotalCredit());
     }
 
 }
