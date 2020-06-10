@@ -378,33 +378,6 @@
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>1.10</version>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.5</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>**/*Exception.*</exclude>
-                        </excludes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <phase>initialize</phase>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <goals>
-                                <goal>report-aggregate</goal>
-                            </goals>
-                            <phase>verify</phase>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
