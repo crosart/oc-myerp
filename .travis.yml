@@ -18,7 +18,7 @@ before_script:
   - psql myerp < initdb.sql
 
 script:
-  - mvn verify -P test-business sonar:sonar
+  - mvn verify -P test-business
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
