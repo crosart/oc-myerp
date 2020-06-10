@@ -32,7 +32,7 @@ public class CompteComptableTest {
 
     @Nested
     @Tag("Validators")
-    @DisplayName("Validators pour les attributs d'EcritureComptable")
+    @DisplayName("Validators pour les attributs de CompteComptable")
     class checkValidators {
 
         private Validator validator;
