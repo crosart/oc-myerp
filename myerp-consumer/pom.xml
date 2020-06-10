@@ -116,7 +116,7 @@
 
                         </executions>
                     </plugin>
-                    
+
                     <!-- Ajout du répertoire src/test-consumer/java en tant que source de test du module -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
