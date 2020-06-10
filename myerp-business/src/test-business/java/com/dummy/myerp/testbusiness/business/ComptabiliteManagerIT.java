@@ -148,7 +148,26 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         assertDoesNotThrow(() -> {
             getBusinessProxy().getComptabiliteManager().insertEcritureComptable(vEC);
         });
+    }
 
+    @Test
+    @DisplayName("Doit mettre à jour une écriture comptable dans la DB")
+    public void givenEccritureComptable_shouldUpdateEntryInDatabase() {
+        // GIVEN
+        EcritureComptable vEC = new EcritureComptable();
+        vEC.setId(-1);
+        vEC.setJournal(new JournalComptable("VE", "Vente")); // Updated Value
+        vEC.setDate(new GregorianCalendar(2016, Calendar.JANUARY,1).getTime());
+        vEC.setLibelle("Cartouche d'imprimante UPDATED");
+        vEC.setReference("VE-2016/00001");
+
+        // WHEN
+        // ...
+
+        // THEN
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().updateEcritureComptable(vEC);
+        });
     }
 
 }
