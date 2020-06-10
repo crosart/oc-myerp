@@ -6,8 +6,12 @@ import java.util.stream.Stream;
 
 public class ExternalTestSources {
 
-    static Stream<String> invalidLibelles() {
+    static Stream<String> invalidLibelles201() {
         return Stream.of("", RandomStringUtils.randomAlphabetic(201));
+    }
+
+    static Stream<String> invalidLibelles151() {
+        return Stream.of("", RandomStringUtils.randomAlphabetic(151));
     }
 
 }

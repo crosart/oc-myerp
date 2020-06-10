@@ -1,6 +1,8 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
 
+import lombok.Data;
+
 import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
@@ -10,6 +12,7 @@ import javax.validation.constraints.Size;
 /**
  * Bean représentant un Compte Comptable
  */
+@Data
 public class CompteComptable {
     // ==================== Attributs ====================
     /** The Numero. */
@@ -46,21 +49,6 @@ public class CompteComptable {
      */
     public CompteComptable(Integer pNumero, String pLibelle) {
         numero = pNumero;
-        libelle = pLibelle;
-    }
-
-
-    // ==================== Getters/Setters ====================
-    public Integer getNumero() {
-        return numero;
-    }
-    public void setNumero(Integer pNumero) {
-        numero = pNumero;
-    }
-    public String getLibelle() {
-        return libelle;
-    }
-    public void setLibelle(String pLibelle) {
         libelle = pLibelle;
     }
 

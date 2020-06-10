@@ -39,16 +39,17 @@ public class EcritureComptableTest {
     @BeforeEach
     public void initEcritureComptable() {
         vEC = new EcritureComptable();
+        vEC.setId(1);
         vEC.setJournal(new JournalComptable("AC", "Achat"));
         vEC.setDate(valueOf(LocalDate.of(2020, 03, 11)));
-        vEC.setLibelle("Libelle");
         vEC.setReference("AC-2020/00001");
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                null, new BigDecimal(123),
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                "Test", new BigDecimal(123),
                 null));
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                null, null,
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                "Test", null,
                 new BigDecimal(123)));
+        vEC.setLibelle("Libelle");
     }
 
     @Nested
@@ -105,7 +106,7 @@ public class EcritureComptableTest {
         }
 
         @ParameterizedTest(name = "Le libellé \"{0}\" non valide doit retourner une exception (1-200 caractères)")
-        @MethodSource("com.dummy.myerp.model.bean.comptabilite.sources.ExternalTestSources#invalidLibelles")
+        @MethodSource("com.dummy.myerp.model.bean.comptabilite.sources.ExternalTestSources#invalidLibelles201")
         @DisplayName("Une écriture comptable avec libellé non valide doit retourner une exception de validation")
         public void nonValidLibelleShouldFailValidation(String arg) {
             // GIVEN
@@ -179,24 +180,10 @@ public class EcritureComptableTest {
     @Test
     @DisplayName("Vérification de la validité du toString()")
     public void givenEcritureComptable_thenBuildValidToString() {
-        EcritureComptable vEC = new EcritureComptable();
-        vEC.setId(1);
-        vEC.setJournal(new JournalComptable("AC", "Achat"));
-        vEC.setDate(valueOf(LocalDate.of(2020, 03, 11)));
-        vEC.setReference("AC-2020/00001");
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
-                "Test", new BigDecimal(123),
-                null));
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
-                "Test", null,
-                new BigDecimal(123)));
-        vEC.setLibelle("Libelle");
-
         assertEquals("EcritureComptable{id=1, journal=JournalComptable{code='AC', libelle='Achat'}, reference='AC-2020/00001', date=2020-03-11, libelle='Libelle', totalDebit=123.00, totalCredit=123.00, listLigneEcriture=" +
                 "[\nLigneEcritureComptable{compteComptable=CompteComptable{numero=401, libelle='null'}, libelle='Test', debit=123, credit=null}" +
                 "\nLigneEcritureComptable{compteComptable=CompteComptable{numero=411, libelle='null'}, libelle='Test', debit=null, credit=123}\n" +
                 "]}", vEC.toString());
-
     }
 
 }
