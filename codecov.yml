@@ -20,6 +20,6 @@ codecov:
     require_changes: no
 
   ignore:
-    - "myerp-technical/src/main/java/com/dummy/myerp/technical"
+    - "myerp-technical/*"
   ci:
     - "travis-ci.org"
