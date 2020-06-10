@@ -385,7 +385,7 @@
                     <version>0.8.5</version>
                     <configuration>
                         <excludes>
-                            <exclude>com.dummy.myerp.technical.*</exclude>
+                            <exclude>**/*Exception.*</exclude>
                         </excludes>
                     </configuration>
                     <executions>
