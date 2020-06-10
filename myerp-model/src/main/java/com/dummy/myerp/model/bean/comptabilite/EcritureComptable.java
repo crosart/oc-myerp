@@ -92,8 +92,8 @@ public class EcritureComptable {
             .append(vSEP).append("libelle='").append(libelle).append("'")
             .append(vSEP).append("totalDebit=").append(this.getTotalDebit().toPlainString())
             .append(vSEP).append("totalCredit=").append(this.getTotalCredit().toPlainString())
-            .append(vSEP).append("listLigneEcriture=[\n")
-            .append(StringUtils.join(listLigneEcriture, "\n")).append("\n]")
+            .append(vSEP).append("listLigneEcriture=[\n\r")
+            .append(StringUtils.join(listLigneEcriture, "\n\r")).append("\n\r]")
             .append("}");
         return vStB.toString();
     }
