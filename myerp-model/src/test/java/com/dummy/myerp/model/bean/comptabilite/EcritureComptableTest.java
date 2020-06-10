@@ -1,6 +1,7 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
@@ -16,6 +17,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import static java.sql.Date.valueOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -180,7 +182,7 @@ public class EcritureComptableTest {
         EcritureComptable vEC = new EcritureComptable();
         vEC.setId(1);
         vEC.setJournal(new JournalComptable("AC", "Achat"));
-        vEC.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+        vEC.setDate(valueOf(LocalDate.of(2020, 03, 11)));
         vEC.setReference("AC-2020/00001");
         vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
                 "Test", new BigDecimal(123),
@@ -190,7 +192,10 @@ public class EcritureComptableTest {
                 new BigDecimal(123)));
         vEC.setLibelle("Libelle");
 
-        assertEquals("EcritureComptable{id=1, journal=JournalComptable{code='AC', libelle='Achat'}, reference='AC-2020/00001', date=Wed Mar 11 00:00:00 CET 2020, libelle='Libelle', totalDebit=123.00, totalCredit=123.00, listLigneEcriture=[\nLigneEcritureComptable{compteComptable=CompteComptable{numero=401, libelle='null'}, libelle='Test', debit=123, credit=null}\nLigneEcritureComptable{compteComptable=CompteComptable{numero=411, libelle='null'}, libelle='Test', debit=null, credit=123}\n]}", vEC.toString());
+        assertEquals("EcritureComptable{id=1, journal=JournalComptable{code='AC', libelle='Achat'}, reference='AC-2020/00001', date=2020-03-11, libelle='Libelle', totalDebit=123.00, totalCredit=123.00, listLigneEcriture=" +
+                "[\nLigneEcritureComptable{compteComptable=CompteComptable{numero=401, libelle='null'}, libelle='Test', debit=123, credit=null}" +
+                "\nLigneEcritureComptable{compteComptable=CompteComptable{numero=411, libelle='null'}, libelle='Test', debit=null, credit=123}\n" +
+                "]}", vEC.toString());
 
     }
 
