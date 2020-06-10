@@ -1,0 +1,24 @@
+language: java
+
+jdk: openjdk8
+
+cache:
+  directories:
+    - $HOME/.m2
+
+env:
+  global:
+    - CODECOV_TOKEN="dc017826-eb20-44b0-87ba-400f59832198"
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database myerp;' -U postgres
+  - psql myerp < initdb.sql
+
+script:
+  - mvn verify -P test-business
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
