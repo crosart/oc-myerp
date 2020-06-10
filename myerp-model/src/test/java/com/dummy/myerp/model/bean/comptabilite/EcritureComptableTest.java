@@ -40,7 +40,7 @@ public class EcritureComptableTest {
     public void initEcritureComptable() {
         vEC = new EcritureComptable();
         vEC.setJournal(new JournalComptable("AC", "Achat"));
-        vEC.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+        vEC.setDate(valueOf(LocalDate.of(2020, 03, 11)));
         vEC.setLibelle("Libelle");
         vEC.setReference("AC-2020/00001");
         vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
