@@ -5,6 +5,7 @@ import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
+import com.sun.org.apache.xpath.internal.functions.FuncBoolean;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,8 +45,8 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
     }
 
     @Test
-    @DisplayName("La référence de l'écriture comptable doit être unique")
-    public void givenEcritureComptable_shouldThrowFunctionalExceptionIfReferenceExists() throws FunctionalException {
+    @DisplayName("Doit rejeter une écriture comptable si la référence existe déjà")
+    public void givenEcritureComptable_ifReferenceAlreadyExists_shouldThrowFunctionalException() throws FunctionalException {
         // GIVEN
         EcritureComptable vEC = new EcritureComptable();
         vEC.setJournal(new JournalComptable("AC", "Achat"));
@@ -69,6 +70,26 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         );
         assertNotNull(thrown.getMessage());
         assertTrue(thrown.getMessage().contains("Une autre écriture comptable existe déjà avec la même référence."));
+    }
+
+    @Test
+    @DisplayName("Ne doit rien faire si aucune écriture n'a la même référence")
+    public void givenEcritureComptable_ifReferenceNotExists_shouldDoNothing() {
+        EcritureComptable vEC = new EcritureComptable();
+        vEC.setJournal(new JournalComptable("AC", "Achat"));
+        vEC.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+        vEC.setLibelle("Libelle");
+        vEC.setReference("AC-2020/00001");
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, new BigDecimal(123),
+                null));
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                null, null,
+                new BigDecimal(123)));
+
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().checkEcritureComptable(vEC);
+        });
     }
 
 

@@ -24,7 +24,7 @@ public class EcritureComptableTest {
 
     @Test
     @DisplayName("Vérification de l'équilibre d'une écriture comptable")
-    public void givenEcritureComptable_thenIsEquilibree() {
+    public void givenValidEcritureComptable_thenIsEquilibree() {
         EcritureComptable vEC = new EcritureComptable();
 
         vEC.setLibelle("Equilibrée");
@@ -33,7 +33,13 @@ public class EcritureComptableTest {
         vEC.getListLigneEcriture().add(this.createLigne(2, null, "301"));
         vEC.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
         assertTrue(vEC.isEquilibree());
-        // TODO séparer tests
+    }
+
+    @Test
+    @DisplayName("Vérification de l'équilibre d'une écriture comptable")
+    public void givenNotValidEcritureComptable_thenIsNotEquilibree() {
+        EcritureComptable vEC = new EcritureComptable();
+
         vEC.getListLigneEcriture().clear();
         vEC.setLibelle("Non équilibrée");
         vEC.getListLigneEcriture().add(this.createLigne(1, "10", null));
