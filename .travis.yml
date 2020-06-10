@@ -18,8 +18,7 @@ before_script:
   - psql myerp < initdb.sql
 
 script:
-  - mvn verify -P test-business
-  - mvn verify -P test-consumer
+  - mvn verify -P test-business,test-consumer
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
