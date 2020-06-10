@@ -45,8 +45,32 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
     }
 
     @Test
-    @DisplayName("Doit rejeter une écriture comptable si la référence existe déjà")
-    public void givenEcritureComptable_ifReferenceAlreadyExists_shouldThrowFunctionalException() throws FunctionalException {
+    @DisplayName("Ne doit rien faire si aucune écriture n'a la même référence")
+    public void givenEcritureComptable_ifReferenceNotExists_shouldDoNothing() {
+        // GIVEN
+        EcritureComptable vEC = new EcritureComptable();
+        vEC.setJournal(new JournalComptable("AC", "Achat"));
+        vEC.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+        vEC.setLibelle("Libelle");
+        vEC.setReference("AC-2020/00001");
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, new BigDecimal(123),
+                null));
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                null, null,
+                new BigDecimal(123)));
+        // WHEN
+        // ...
+
+        // THEN
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().checkEcritureComptable(vEC);
+        });
+    }
+
+    @Test
+    @DisplayName("Doit rejeter l'écriture si la référence existe déjà alors que c'est une nouvelle écriture (ID = null)")
+    public void givenEcritureComptable_ifReferenceAlreadyExistsAndEcritureIsNew_shouldThrowFunctionalException() throws FunctionalException {
         // GIVEN
         EcritureComptable vEC = new EcritureComptable();
         vEC.setJournal(new JournalComptable("AC", "Achat"));
@@ -73,13 +97,15 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
     }
 
     @Test
-    @DisplayName("Ne doit rien faire si aucune écriture n'a la même référence")
-    public void givenEcritureComptable_ifReferenceNotExists_shouldDoNothing() {
+    @DisplayName("Doit rejeter l'écriture si la référence existe déjà mais que l'ID de l'écriture diffère de celle existante (ID = null)")
+    public void givenEcritureComptable_ifReferenceAlreadyExistsAndEcritureIdDiffers_shouldThrowFunctionalException() {
+        // GIVEN
         EcritureComptable vEC = new EcritureComptable();
+        vEC.setId(2);
         vEC.setJournal(new JournalComptable("AC", "Achat"));
-        vEC.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+        vEC.setDate(new GregorianCalendar(2016, Calendar.MARCH, 11).getTime());
         vEC.setLibelle("Libelle");
-        vEC.setReference("AC-2020/00001");
+        vEC.setReference("AC-2016/00001");
         vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                 null, new BigDecimal(123),
                 null));
@@ -87,9 +113,16 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
                 null, null,
                 new BigDecimal(123)));
 
-        assertDoesNotThrow(() -> {
-            getBusinessProxy().getComptabiliteManager().checkEcritureComptable(vEC);
-        });
+        // WHEN
+        // ...
+
+        // THEN
+        FunctionalException thrown = assertThrows(
+                FunctionalException.class,
+                () -> { getBusinessProxy().getComptabiliteManager().checkEcritureComptable(vEC); }
+        );
+        assertNotNull(thrown.getMessage());
+        assertTrue(thrown.getMessage().contains("Une autre écriture comptable existe déjà avec la même référence."));
     }
 
 
