@@ -190,12 +190,10 @@ public class EcritureComptableTest {
                 new BigDecimal(123)));
         vEC.setLibelle("Libelle");
 
-        assertEquals("EcritureComptable{id=1, journal=" +
-                "JournalComptable{code='AC', libelle='Achat'}" +
-                ", reference='AC-2020/00001', date=Wed Mar 11 00:00:00 CET 2020, libelle='Libelle', totalDebit=123.00, totalCredit=123.00, listLigneEcriture=" +
-                "[\n\rLigneEcritureComptable{compteComptable=CompteComptable{numero=401, libelle='null'}, libelle='Test', debit=123, credit=null}\n\r" +
-                "LigneEcritureComptable{compteComptable=CompteComptable{numero=411, libelle='null'}, libelle='Test', debit=null, credit=123}\n\r]}"
-                , vEC.toString());
+        assertEquals("EcritureComptable{id=1, journal=JournalComptable{code='AC', libelle='Achat'}, reference='AC-2020/00001', date=Wed Mar 11 00:00:00 CET 2020, libelle='Libelle', totalDebit=123.00, totalCredit=123.00, listLigneEcriture=[\n" +
+                        "LigneEcritureComptable{compteComptable=CompteComptable{numero=401, libelle='null'}, libelle='Test', debit=123, credit=null}\n" +
+                        "LigneEcritureComptable{compteComptable=CompteComptable{numero=411, libelle='null'}, libelle='Test', debit=null, credit=123}\n" +
+                        "]}", vEC.toString());
 
     }
 
