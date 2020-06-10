@@ -14,4 +14,8 @@ public class ExternalTestSources {
         return Stream.of("", RandomStringUtils.randomAlphabetic(151));
     }
 
+    static Stream<String> invalidLibelles6() {
+        return Stream.of("", RandomStringUtils.randomAlphabetic(6));
+    }
+
 }

@@ -10,6 +10,9 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static java.sql.Date.valueOf;
@@ -79,6 +82,18 @@ public class CompteComptableTest {
             // THEN
             assertFalse(violations.isEmpty());
         }
+    }
+
+    @Test
+    @DisplayName("Doit retourner un CompteComptable à partir de son numéro et de la liste des comptes comptables")
+    public void givenListCompteComptableAndNumero_thenReturnCompteComptable() {
+        List<CompteComptable> listCC = new ArrayList<>(Arrays.asList(
+                new CompteComptable(401, "Fournisseurs"),
+                new CompteComptable(411, "Clients")
+        ));
+        Integer vNumero = 401;
+
+        assertEquals(new CompteComptable(401, "Fournisseurs"), CompteComptable.getByNumero(listCC, vNumero));
     }
 
     @Test
