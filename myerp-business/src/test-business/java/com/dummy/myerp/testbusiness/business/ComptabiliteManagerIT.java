@@ -52,11 +52,11 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         vEC.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
         vEC.setLibelle("Libelle");
         vEC.setReference("AC-2020/00001");
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                null, new BigDecimal(123),
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                "Test", new BigDecimal(123),
                 null));
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                null, null,
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                "Test", null,
                 new BigDecimal(123)));
         // WHEN
         // ...
@@ -76,11 +76,11 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         vEC.setDate(new GregorianCalendar(2016, Calendar.MARCH, 11).getTime());
         vEC.setLibelle("Libelle");
         vEC.setReference("AC-2016/00001");
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                null, new BigDecimal(123),
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                "Test", new BigDecimal(123),
                 null));
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                null, null,
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                "Test", null,
                 new BigDecimal(123)));
 
         // WHEN
@@ -105,11 +105,11 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         vEC.setDate(new GregorianCalendar(2016, Calendar.MARCH, 11).getTime());
         vEC.setLibelle("Libelle");
         vEC.setReference("AC-2016/00001");
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                null, new BigDecimal(123),
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                "Test", new BigDecimal(123),
                 null));
-        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                null, null,
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                "Test", null,
                 new BigDecimal(123)));
 
         // WHEN
