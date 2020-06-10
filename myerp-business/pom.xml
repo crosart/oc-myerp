@@ -113,7 +113,6 @@
             <id>test-business</id>
             <build>
                 <plugins>
-
                     <plugin>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <executions>
