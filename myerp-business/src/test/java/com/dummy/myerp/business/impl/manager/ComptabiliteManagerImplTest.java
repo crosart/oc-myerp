@@ -9,7 +9,6 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -115,6 +114,21 @@ public class ComptabiliteManagerImplTest {
 
 
         @Test
+        @DisplayName("Une écriture qui ne respecte pas une règle de validation doit retourner une exception")
+        public void nonValidEcritureComptableShouldThrowFunctionalException() {
+            //GIVEN
+            vEC.setJournal(null);
+
+            FunctionalException thrown = assertThrows(
+                    FunctionalException.class,
+                    () -> { manager.checkEcritureComptableUnit(vEC); }
+            );
+            assertNotNull(thrown.getCause());
+            assertNotNull(thrown.getCause().getMessage());
+            assertTrue(thrown.getCause().getMessage().contains("L'écriture comptable ne respecte pas les contraintes de validation"));
+        }
+
+        @Test
         @DisplayName("Vérifier la validité unitaire d'une écriture comptable correcte")
         public void givenEcritureComptable_thenCheckEcritureComptableUnitPasses() throws Exception {
             // GIVEN
@@ -127,112 +141,6 @@ public class ComptabiliteManagerImplTest {
             assertDoesNotThrow(() -> {
                 manager.checkEcritureComptableUnit(vEC);
             });
-        }
-
-        @Nested
-        @Tag("checkValidators")
-        @DisplayName("Test du validateur pour une écriture comptable")
-        class checkValidators {
-
-            @ParameterizedTest(name = "La référence {0} non valide doit retourner une exception")
-            @ValueSource(strings = {"A-2020/00001", "44-2020/00001", "AC-19/00001", "AC-XXXX/00001", "AC-2020/0001", "AC-2020/XXXXX"})
-            @DisplayName("Une référence non valide doit retourner une exception de validation")
-            public void checkEcritureComptableUnit_shouldThrowValidationFunctionalException_forNonValidReference(String arg) {
-                // GIVEN
-                vEC.setReference(arg);
-
-                // WHEN
-                // ...
-
-                // THEN
-                FunctionalException thrown = assertThrows(
-                        FunctionalException.class,
-                        () -> { manager.checkEcritureComptableUnit(vEC); }
-                );
-                assertNotNull(thrown.getCause());
-                assertNotNull(thrown.getCause().getMessage());
-                assertTrue(thrown.getCause().getMessage().contains("L'écriture comptable ne respecte pas les contraintes de validation"));
-            }
-
-            @Test
-            @DisplayName("Une écriture comptable sans journal doit retourner une exception de validation")
-            public void checkEcritureComptableUnit_shouldThrowValidationFunctionalException_forNullJournalComptable() {
-                // GIVEN
-                vEC.setJournal(null);
-
-                // WHEN
-                // ...
-
-                // THEN
-                FunctionalException thrown = assertThrows(
-                        FunctionalException.class,
-                        () -> { manager.checkEcritureComptableUnit(vEC); }
-                );
-                assertNotNull(thrown.getCause());
-                assertNotNull(thrown.getCause().getMessage());
-                assertTrue(thrown.getCause().getMessage().contains("L'écriture comptable ne respecte pas les contraintes de validation"));
-            }
-
-            @Test
-            @DisplayName("Une écriture comptable sans date doit retourner une exception de validation")
-            public void checkEcritureComptableUnit_shouldThrowValidationFunctionalException_forNullDate() {
-                // GIVEN
-                vEC.setDate(null);
-
-                // WHEN
-                // ...
-
-                // THEN
-                FunctionalException thrown = assertThrows(
-                        FunctionalException.class,
-                        () -> { manager.checkEcritureComptableUnit(vEC); }
-                );
-                assertNotNull(thrown.getCause());
-                assertNotNull(thrown.getCause().getMessage());
-                assertTrue(thrown.getCause().getMessage().contains("L'écriture comptable ne respecte pas les contraintes de validation"));
-            }
-
-            @ParameterizedTest(name = "Le libellé \"{0}\" non valide doit retourner une exception (1-200 caractères)")
-            @MethodSource("com.dummy.myerp.business.impl.manager.sources.ExternalTestSources#invalidLibelles")
-            @DisplayName("Une écriture comptable avec libellé non valide doit retourner une exception de validation")
-            public void checkEcritureComptableUnit_shouldThrowValidationFunctionalException_forNonValidLibelle(String arg) {
-                // GIVEN
-                vEC.setLibelle(arg);
-
-                // WHEN
-                // ...
-
-                // THEN
-                FunctionalException thrown = assertThrows(
-                        FunctionalException.class,
-                        () -> { manager.checkEcritureComptableUnit(vEC); }
-                );
-                assertNotNull(thrown.getCause());
-                assertNotNull(thrown.getCause().getMessage());
-                assertTrue(thrown.getCause().getMessage().contains("L'écriture comptable ne respecte pas les contraintes de validation"));
-            }
-
-            @Test
-            @DisplayName("Une écriture avec moins de deux lignes d'écriture comptable doit retourner une exception de validation")
-            public void checkEcritureComptableUnit_shouldThrowValidationFunctionalException_forLessThanTwoLigneEcritureComptable() {
-                // GIVEN
-                vEC.getListLigneEcriture().clear();
-                vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                        null, new BigDecimal(123),
-                        null));
-
-                // WHEN
-                // ...
-
-                // THEN
-                FunctionalException thrown = assertThrows(
-                        FunctionalException.class,
-                        () -> { manager.checkEcritureComptableUnit(vEC); }
-                );
-                assertNotNull(thrown.getCause());
-                assertNotNull(thrown.getCause().getMessage());
-                assertTrue(thrown.getCause().getMessage().contains("L'écriture comptable ne respecte pas les contraintes de validation"));
-            }
         }
 
         @Test

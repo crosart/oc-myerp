@@ -1,4 +1,4 @@
-package com.dummy.myerp.business.impl.manager.sources;
+package com.dummy.myerp.model.bean.comptabilite.sources;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

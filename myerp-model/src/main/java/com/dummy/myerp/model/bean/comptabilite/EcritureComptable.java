@@ -10,12 +10,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 
 /**
  * Bean représentant une Écriture Comptable
  */
+@Data
 public class EcritureComptable {
 
     // ==================== Attributs ====================
@@ -38,42 +40,6 @@ public class EcritureComptable {
     @Valid
     @Size(min = 2)
     private final List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
-
-
-    // ==================== Getters/Setters ====================
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer pId) {
-        id = pId;
-    }
-    public JournalComptable getJournal() {
-        return journal;
-    }
-    public void setJournal(JournalComptable pJournal) {
-        journal = pJournal;
-    }
-    public String getReference() {
-        return reference;
-    }
-    public void setReference(String pReference) {
-        reference = pReference;
-    }
-    public Date getDate() {
-        return date;
-    }
-    public void setDate(Date pDate) {
-        date = pDate;
-    }
-    public String getLibelle() {
-        return libelle;
-    }
-    public void setLibelle(String pLibelle) {
-        libelle = pLibelle;
-    }
-    public List<LigneEcritureComptable> getListLigneEcriture() {
-        return listLigneEcriture;
-    }
 
     /**
      * Calcul et renvoie le total des montants au débit des lignes d'écriture
