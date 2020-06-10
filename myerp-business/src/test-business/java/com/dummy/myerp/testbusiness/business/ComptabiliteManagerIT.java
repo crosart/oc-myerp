@@ -2,10 +2,18 @@ package com.dummy.myerp.testbusiness.business;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration("/com/dummy/myerp/testbusiness/business/bootstrapContext.xml")
+@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/testbusiness/business/dropDB.sql")
+@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/testbusiness/business/populateDB.sql")
 public class ComptabiliteManagerIT extends BusinessTestCase {
 
     @Test
@@ -31,3 +39,4 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
 
 
 }
+
