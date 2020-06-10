@@ -383,6 +383,11 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.8.5</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>com.dummy.myerp.technical.*</exclude>
+                        </excludes>
+                    </configuration>
                     <executions>
                         <execution>
                             <id>prepare-agent</id>
@@ -397,11 +402,6 @@
                                 <goal>report-aggregate</goal>
                             </goals>
                             <phase>verify</phase>
-                            <configuration>
-                                <excludes>
-                                    <exclude>com.dummy.myerp.technical.*</exclude>
-                                </excludes>
-                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
