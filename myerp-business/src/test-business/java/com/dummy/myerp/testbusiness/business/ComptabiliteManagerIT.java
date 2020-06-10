@@ -125,7 +125,31 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         assertTrue(thrown.getMessage().contains("Une autre écriture comptable existe déjà avec la même référence."));
     }
 
+    @Test
+    @DisplayName("Doit insérer une nouvelle écriture comptable dans la DB")
+    public void givenEcritureComptable_shouldCreateNewEntryInDatabase() throws FunctionalException {
+        // GIVEN
+        EcritureComptable vEC = new EcritureComptable();
+        vEC.setJournal(new JournalComptable("AC", "Achat"));
+        vEC.setDate(new GregorianCalendar(2020, Calendar.MARCH, 11).getTime());
+        vEC.setLibelle("Libelle");
+        vEC.setReference("AC-2020/00001");
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                "Test", new BigDecimal(123),
+                null));
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                "Test", null,
+                new BigDecimal(123)));
 
+        // WHEN
+        // ...
+
+        // THEN
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().insertEcritureComptable(vEC);
+        });
+
+    }
 
 }
 
