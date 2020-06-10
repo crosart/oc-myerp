@@ -397,6 +397,11 @@
                                 <goal>report-aggregate</goal>
                             </goals>
                             <phase>verify</phase>
+                            <configuration>
+                                <excludes>
+                                    <exclude>com.dummy.myerp.technical.*</exclude>
+                                </excludes>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
