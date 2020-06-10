@@ -152,7 +152,7 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
 
     @Test
     @DisplayName("Doit mettre à jour une écriture comptable dans la DB")
-    public void givenEccritureComptable_shouldUpdateEntryInDatabase() {
+    public void givenEcritureComptable_shouldUpdateEntryInDatabase() {
         // GIVEN
         EcritureComptable vEC = new EcritureComptable();
         vEC.setId(-1);
@@ -167,6 +167,21 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         // THEN
         assertDoesNotThrow(() -> {
             getBusinessProxy().getComptabiliteManager().updateEcritureComptable(vEC);
+        });
+    }
+
+    @Test
+    @DisplayName("Doit mettre à jour une écriture comptable dans la DB")
+    public void givenEcritureComptableId_shoulddeleteEntryInDatabase() {
+        // GIVEN
+        Integer vECID = -1;
+
+        // WHEN
+        // ...
+
+        // THEN
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().deleteEcritureComptable(vECID);
         });
     }
 
