@@ -70,7 +70,7 @@ public class CompteComptableTest {
         }
 
         @ParameterizedTest(name = "Le libellé \"{0}\" non valide doit retourner une exception (1-150 caractères)")
-        @MethodSource("com.dummy.myerp.model.bean.comptabilite.sources.ExternalTestSources#invalidLibelles151")
+        @MethodSource("com.dummy.myerp.model.bean.comptabilite.sources.ExternalTestSources#invalidLibellesEmptyAnd151")
         @DisplayName("Un compte comptable avec libellé non valide doit retourner une exception de validation")
         public void nonValidLibelleShouldFailValidation(String arg) {
             // GIVEN
