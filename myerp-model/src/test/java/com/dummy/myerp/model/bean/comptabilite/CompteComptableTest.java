@@ -8,14 +8,11 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static java.sql.Date.valueOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -93,7 +90,7 @@ public class CompteComptableTest {
         ));
         Integer vNumero = 401;
 
-        assertEquals(new CompteComptable(401, "Fournisseurs"), CompteComptable.getByNumero(listCC, vNumero));
+        assertEquals(listCC.get(0), CompteComptable.getByNumero(listCC, vNumero));
     }
 
     @Test
