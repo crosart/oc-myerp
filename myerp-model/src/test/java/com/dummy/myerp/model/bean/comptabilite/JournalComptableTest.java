@@ -104,7 +104,7 @@ public class JournalComptableTest {
         ));
         String vCode = "AC";
 
-        assertEquals(new JournalComptable("AC", "Achat"), JournalComptable.getByCode(listJC, vCode));
+        assertEquals(listJC.get(0), JournalComptable.getByCode(listJC, vCode));
     }
 
     @Test
