@@ -5,11 +5,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dummy.myerp.model.validation.constraint.MontantComptable;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
  * Bean représentant une Ligne d'écriture comptable.
  */
+@Getter
+@Setter
 public class LigneEcritureComptable {
 
     // ==================== Attributs ====================
@@ -50,33 +54,6 @@ public class LigneEcritureComptable {
         compteComptable = pCompteComptable;
         libelle = pLibelle;
         debit = pDebit;
-        credit = pCredit;
-    }
-
-
-    // ==================== Getters/Setters ====================
-    public CompteComptable getCompteComptable() {
-        return compteComptable;
-    }
-    public void setCompteComptable(CompteComptable pCompteComptable) {
-        compteComptable = pCompteComptable;
-    }
-    public String getLibelle() {
-        return libelle;
-    }
-    public void setLibelle(String pLibelle) {
-        libelle = pLibelle;
-    }
-    public BigDecimal getDebit() {
-        return debit;
-    }
-    public void setDebit(BigDecimal pDebit) {
-        debit = pDebit;
-    }
-    public BigDecimal getCredit() {
-        return credit;
-    }
-    public void setCredit(BigDecimal pCredit) {
         credit = pCredit;
     }
 

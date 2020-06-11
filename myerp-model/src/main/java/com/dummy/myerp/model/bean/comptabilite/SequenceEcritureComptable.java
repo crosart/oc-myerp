@@ -1,9 +1,14 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Bean représentant une séquence pour les références d'écriture comptable
  */
+@Getter
+@Setter
 public class SequenceEcritureComptable {
 
     // ==================== Attributs ====================
@@ -30,27 +35,6 @@ public class SequenceEcritureComptable {
      */
     public SequenceEcritureComptable(String pCodeJournal, Integer pAnnee, Integer pDerniereValeur) {
         annee = pAnnee;
-        derniereValeur = pDerniereValeur;
-    }
-
-
-    // ==================== Getters/Setters ====================
-    public String getCodeJournal() {
-        return codeJournal;
-    }
-    public void setCodeJournal(String pCodeJournal) {
-        codeJournal = pCodeJournal;
-    }
-    public Integer getAnnee() {
-        return annee;
-    }
-    public void setAnnee(Integer pAnnee) {
-        annee = pAnnee;
-    }
-    public Integer getDerniereValeur() {
-        return derniereValeur;
-    }
-    public void setDerniereValeur(Integer pDerniereValeur) {
         derniereValeur = pDerniereValeur;
     }
 

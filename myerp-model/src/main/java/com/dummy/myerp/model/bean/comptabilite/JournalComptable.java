@@ -1,6 +1,7 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +12,8 @@ import javax.validation.constraints.Size;
 /**
  * Bean représentant un Journal Comptable
  */
-@Data
+@Getter
+@Setter
 public class JournalComptable {
 
     // ==================== Attributs ====================

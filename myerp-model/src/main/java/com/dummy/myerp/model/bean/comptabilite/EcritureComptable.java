@@ -10,14 +10,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 
 /**
  * Bean représentant une Écriture Comptable
  */
-@Data
+@Getter
+@Setter
 public class EcritureComptable {
 
     // ==================== Attributs ====================
