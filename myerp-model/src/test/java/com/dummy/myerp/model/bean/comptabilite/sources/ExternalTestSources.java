@@ -7,14 +7,18 @@ import java.util.stream.Stream;
 public class ExternalTestSources {
 
     static Stream<String> invalidLibelles201() {
+        return Stream.of(RandomStringUtils.randomAlphabetic(201));
+    }
+
+    static Stream<String> invalidLibellesEmptyAnd201() {
         return Stream.of("", RandomStringUtils.randomAlphabetic(201));
     }
 
-    static Stream<String> invalidLibelles151() {
+    static Stream<String> invalidLibellesEmptyAnd151() {
         return Stream.of("", RandomStringUtils.randomAlphabetic(151));
     }
 
-    static Stream<String> invalidLibelles6() {
+    static Stream<String> invalidLibellesEmptyAnd6() {
         return Stream.of("", RandomStringUtils.randomAlphabetic(6));
     }
 
