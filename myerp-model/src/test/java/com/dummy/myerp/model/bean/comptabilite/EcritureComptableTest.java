@@ -2,8 +2,6 @@ package com.dummy.myerp.model.bean.comptabilite;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Set;
 
 import org.apache.commons.lang3.ObjectUtils;
