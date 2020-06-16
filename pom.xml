@@ -171,6 +171,11 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>5.3.5.Final</version>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>3.0.0</version>
+            </dependency>
 
             <!-- ===== Apache Commons ===== -->
             <dependency>
