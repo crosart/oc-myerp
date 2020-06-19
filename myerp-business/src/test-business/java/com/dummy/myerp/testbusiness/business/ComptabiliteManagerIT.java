@@ -159,6 +159,12 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
         vEC.setDate(new GregorianCalendar(2016, Calendar.JANUARY,1).getTime());
         vEC.setLibelle("Cartouche d'imprimante UPDATED");
         vEC.setReference("VE-2016/00001");
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                "Test", new BigDecimal(123),
+                null));
+        vEC.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                "Test", null,
+                new BigDecimal(123)));
 
         // WHEN
         // ...
@@ -170,8 +176,8 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
     }
 
     @Test
-    @DisplayName("Doit mettre à jour une écriture comptable dans la DB")
-    public void givenEcritureComptableId_shoulddeleteEntryInDatabase() {
+    @DisplayName("Doit supprimer une écriture comptable dans la DB")
+    public void givenEcritureComptableId_shouldDeleteEntryInDatabase() {
         // GIVEN
         Integer vECID = -1;
 
