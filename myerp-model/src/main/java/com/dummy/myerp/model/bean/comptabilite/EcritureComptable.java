@@ -27,6 +27,7 @@ public class EcritureComptable {
     private Integer id;
     /** Journal comptable */
     @NotNull private JournalComptable journal;
+    // ERREUR REGEXP
     /** The Reference. */
     @Pattern(regexp = "[a-zA-Z]{2,5}-\\d{4}\\/\\d{5}")
     private String reference;
@@ -58,6 +59,7 @@ public class EcritureComptable {
         return totalDebit.setScale(2, BigDecimal.ROUND_UP);
     }
 
+    // ERREUR CORRIGEE Debit > Credit
     /**
      * Calcul et renvoie le total des montants au crédit des lignes d'écriture
      *
@@ -73,6 +75,7 @@ public class EcritureComptable {
         return totalCredit.setScale(2, BigDecimal.ROUND_UP);
     }
 
+    //ERREUR COMPARETO
     /**
      * Renvoie si l'écriture est équilibrée (TotalDebit = TotalCrédit)
      * @return boolean
