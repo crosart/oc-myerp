@@ -1,10 +1,6 @@
 [![Build Status](https://travis-ci.org/crosart/oc-myerp.svg?branch=master)](https://travis-ci.org/crosart/oc-myerp)
 [![codecov](https://codecov.io/gh/crosart/oc-myerp/branch/master/graph/badge.svg)](https://codecov.io/gh/crosart/oc-myerp)
 
-<p align="center">
-<img src="https://upload.wikimedia.org/wikipedia/fr/0/0d/Logo_OpenClassrooms.png" alt="OC logo">
-</p>
-
 ### Projet OpenClassrooms - Parcours Développeur d'application Java
 # Test course - My ERP
 
@@ -45,3 +41,7 @@ Cet environnement sera construit (à partir des éléments disponibles dans le d
     - Un serveur d'intégration est installé et configuré (Jenkins / Travis CI / GitLab CI au choix).
     - Un rapport d'exécution des tests est automatiquement généré à chaque commit.
     - Un logiciel de versioning a été correctement utilisé.
+    
+<p align="center">
+<img src="https://upload.wikimedia.org/wikipedia/fr/0/0d/Logo_OpenClassrooms.png" alt="OC logo">
+</p>
