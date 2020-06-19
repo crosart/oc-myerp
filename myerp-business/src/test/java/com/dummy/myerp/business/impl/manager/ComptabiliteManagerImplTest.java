@@ -245,10 +245,11 @@ public class ComptabiliteManagerImplTest {
 
         private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
         private DaoProxy daoProxyMock = mock(DaoProxy.class, RETURNS_DEEP_STUBS);
+        private TransactionManager transactionManagerMock = mock(TransactionManager.class, RETURNS_DEEP_STUBS);
 
         @BeforeEach
         public void initAbstractBusinessManager() {
-            AbstractBusinessManager.configure(null, daoProxyMock, TransactionManager.getInstance());
+            AbstractBusinessManager.configure(null, daoProxyMock, transactionManagerMock);
         }
 
         @Test
@@ -309,6 +310,7 @@ public class ComptabiliteManagerImplTest {
             vSEC.setAnnee(2020);
             vSEC.setDerniereValeur(3);
 
+            
             when(daoProxyMock.getComptabiliteDao().getSequenceJournalEcritureComptable(vEC))
                     .thenReturn(vSEC);
 
