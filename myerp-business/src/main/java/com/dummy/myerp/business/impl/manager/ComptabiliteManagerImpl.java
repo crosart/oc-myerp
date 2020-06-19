@@ -55,6 +55,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     @Override
     public synchronized void addReference(EcritureComptable pEcritureComptable) throws NotFoundException, FunctionalException {
+        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         Integer refDerniereValeur;
 
         // Date.getYear() est actuellement Deprecated
@@ -73,10 +74,16 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 refDerniereValeur = vSEC.getDerniereValeur();
                 vSEC.setDerniereValeur(refDerniereValeur + 1);
                 getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(vSEC);
+                getTransactionManager().commitMyERP(vTS);
+                vTS = null;
             }
         } catch (NotFoundException vEx) {
             refDerniereValeur = 1;
             getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(pEcritureComptable.getJournal().getCode(), ecDate.getYear());
+            getTransactionManager().commitMyERP(vTS);
+            vTS = null;
+        } finally {
+            getTransactionManager().rollbackMyERP(vTS);
         }
 
         // On builde la référence suivant RG5
@@ -190,11 +197,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         }
     }
 
+    // ERREUR AJOUT CHECK VALIDITE
     /**
      * {@inheritDoc}
      */
     @Override
     public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
+        this.checkEcritureComptable(pEcritureComptable);
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().updateEcritureComptable(pEcritureComptable);
