@@ -45,3 +45,6 @@ Cet environnement sera construit (à partir des éléments disponibles dans le d
 <p align="center">
 <img src="https://upload.wikimedia.org/wikipedia/fr/0/0d/Logo_OpenClassrooms.png" alt="OC logo">
 </p>
+
+##
+- Le projet est disponible à l'adresse : https://github.com/crosart/oc-myerp
