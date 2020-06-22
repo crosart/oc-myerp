@@ -55,7 +55,7 @@ public class JournalComptableTest {
 
         @ParameterizedTest(name = "Le code \"{0}\" non valide doit retourner une exception (1-5 caractères)")
         @MethodSource("com.dummy.myerp.model.bean.comptabilite.sources.ExternalTestSources#invalidLibellesEmptyAnd6")
-        @DisplayName("Un compte comptable avec libellé non valide doit retourner une exception de validation")
+        @DisplayName("Un compte comptable avec code non valide doit retourner une exception de validation")
         public void nonValidCodeShouldFailValidation(String arg) {
             // GIVEN
             vJC.setCode(arg);
