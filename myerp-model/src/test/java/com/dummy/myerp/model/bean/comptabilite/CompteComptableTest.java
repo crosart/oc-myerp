@@ -54,7 +54,7 @@ public class CompteComptableTest {
         }
 
         @Test
-        @DisplayName("Un compte comptable sans numéro doit retourner une exception de validation")
+        @DisplayName("Un compte comptable sans libellé doit retourner une exception de validation")
         public void nullLibelleShouldFailValidation() {
             // GIVEN
             vCC.setLibelle(null);
