@@ -28,7 +28,7 @@ public class LigneEcritureComptableTest {
 
     @Nested
     @Tag("Validators")
-    @DisplayName("Validators pour les attributs de CompteComptable")
+    @DisplayName("Validators pour les attributs de LigneEcritureComptable")
     class checkValidators {
 
         private Validator validator;
