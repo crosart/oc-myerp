@@ -197,12 +197,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         }
     }
 
-    // ERREUR AJOUT CHECK VALIDITE
     /**
      * {@inheritDoc}
      */
     @Override
     public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
+        // TODO ERREUR AJOUT CHECK VALIDITE
         this.checkEcritureComptable(pEcritureComptable);
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {

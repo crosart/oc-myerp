@@ -40,7 +40,7 @@
                 )
             </value>
         </property>
-        <!-- ERREUR VIRGULE EN TROP -->
+        <!-- TODO ERREUR VIRGULE EN TROP -->
         <property name="SQLupdateSequenceEcritureComptable">
             <value>
                 UPDATE myerp.sequence_ecriture_comptable SET
