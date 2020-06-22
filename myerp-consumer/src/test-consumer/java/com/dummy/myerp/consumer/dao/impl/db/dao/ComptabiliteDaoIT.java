@@ -48,6 +48,15 @@ public class ComptabiliteDaoIT {
     }
 
     @Test
+    @DisplayName("La liste des écritures comptables de la DB doit contenir 5 lignes")
+    public void gettingListEcritureComptable_shouldReturn5() {
+        assertDoesNotThrow(() -> {
+            dao.getListEcritureComptable();
+        });
+        assertEquals(5, dao.getListEcritureComptable().size());
+    }
+
+    @Test
     @DisplayName("Doit retourner une séquence d'écriture comptable à partir d'une écriture comptable")
     public void gettingListSequenceEcritureComptable_shouldReturn4() throws NotFoundException {
         EcritureComptable vEC = new EcritureComptable();
@@ -97,12 +106,6 @@ public class ComptabiliteDaoIT {
         assertDoesNotThrow(() -> {
             dao.updateSequenceEcritureComptable(vSEC);
         });
-    }
-
-    @Test
-    @DisplayName("La liste des écritures comptables de la DB doit contenir 5 lignes")
-    public void gettingListEcritureComptable_shouldReturn5() {
-        assertEquals(5, dao.getListEcritureComptable().size());
     }
 
     @Test

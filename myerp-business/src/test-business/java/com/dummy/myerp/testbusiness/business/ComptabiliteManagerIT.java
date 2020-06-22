@@ -28,18 +28,27 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
     @Test
     @DisplayName("La liste des comptes comptables de la DB doit contenir 7 lignes")
     public void gettingListCompteComptable_shouldReturn7() {
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().getListCompteComptable();
+        });
         assertEquals(7, getBusinessProxy().getComptabiliteManager().getListCompteComptable().size());
     }
 
     @Test
     @DisplayName("La liste des journaux comptables de la DB doit contenir 4 lignes")
     public void  gettingListJournalComptable_shouldReturn4() {
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().getListJournalComptable();
+        });
         assertEquals(4, getBusinessProxy().getComptabiliteManager().getListJournalComptable().size());
     }
 
     @Test
     @DisplayName("La liste des écritures comptables de la DB doit contenir 5 lignes")
     public void gettingListEcritureComptable_shouldReturn5() {
+        assertDoesNotThrow(() -> {
+            getBusinessProxy().getComptabiliteManager().getListEcritureComptable();
+        });
         assertEquals(5, getBusinessProxy().getComptabiliteManager().getListEcritureComptable().size());
     }
 
@@ -96,7 +105,7 @@ public class ComptabiliteManagerIT extends BusinessTestCase {
     }
 
     @Test
-    @DisplayName("Doit rejeter l'écriture si la référence existe déjà mais que l'ID de l'écriture diffère de celle existante (ID = null)")
+    @DisplayName("Doit rejeter l'écriture si la référence existe déjà mais que l'ID de l'écriture diffère de celle existante")
     public void givenEcritureComptable_ifReferenceAlreadyExistsAndEcritureIdDiffers_shouldThrowFunctionalException() {
         // GIVEN
         EcritureComptable vEC = new EcritureComptable();
